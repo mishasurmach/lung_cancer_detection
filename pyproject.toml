@@ -16,6 +16,8 @@ dependencies = [
     "scikit-learn (>=1.6.1,<2.0.0)"
 ]
 
+[tool.flake8]
+max-line-length = 88
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
