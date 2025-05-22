@@ -18,9 +18,10 @@ class ConvolutionalNetwork(pl.LightningModule):
         """Initializes the convolutional network.
 
         Args:
-            lr (float): Learning rate for the optimizer.
+            config.
         """
         super().__init__()
+        self.save_hyperparameters(lr)
         self.conv1 = nn.Conv2d(3, 6, 3, 1)
         self.conv2 = nn.Conv2d(6, 16, 3, 1)
         self.fc1 = nn.Linear(16 * 54 * 54, 120)
