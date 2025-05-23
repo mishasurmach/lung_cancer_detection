@@ -3,6 +3,7 @@ from typing import Optional
 import numpy as np
 import pytorch_lightning as pl
 import torch
+from omegaconf import DictConfig
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
@@ -16,7 +17,7 @@ class DataModule(pl.LightningDataModule):
     validation, and test subsets.
     """
 
-    def __init__(self, config):
+    def __init__(self, config: DictConfig):
         """Initializes the data module.
 
         Args:
@@ -97,6 +98,7 @@ class DataModule(pl.LightningDataModule):
         return DataLoader(
             self.train_dataset,
             batch_size=self.config["training"]["batch_size"],
+            num_workers=self.config["training"]["num_workers"],
             shuffle=True,
         )
 
@@ -107,7 +109,9 @@ class DataModule(pl.LightningDataModule):
             DataLoader: PyTorch DataLoader for the validation dataset.
         """
         return DataLoader(
-            self.val_dataset, batch_size=self.config["training"]["batch_size"]
+            self.val_dataset,
+            batch_size=self.config["training"]["batch_size"],
+            num_workers=self.config["training"]["num_workers"],
         )
 
     def test_dataloader(self) -> torch.utils.data.DataLoader:
@@ -117,7 +121,9 @@ class DataModule(pl.LightningDataModule):
             DataLoader: PyTorch DataLoader for the test dataset.
         """
         return DataLoader(
-            self.test_dataset, batch_size=self.config["training"]["batch_size"]
+            self.test_dataset,
+            batch_size=self.config["training"]["batch_size"],
+            num_workers=self.config["training"]["num_workers"],
         )
 
     def predict_dataloader(self) -> torch.utils.data.DataLoader:
@@ -131,7 +137,9 @@ class DataModule(pl.LightningDataModule):
             DataLoader: PyTorch DataLoader for the prediction dataset.
         """
         return DataLoader(
-            self.test_dataset, batch_size=self.config["training"]["batch_size"]
+            self.test_dataset,
+            batch_size=self.config["training"]["batch_size"],
+            num_workers=self.config["training"]["num_workers"],
         )
 
     def teardown(self, stage: Optional[str] = None) -> None:

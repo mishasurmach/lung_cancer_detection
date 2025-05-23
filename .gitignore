@@ -1,5 +1,9 @@
 lung_image_sets/
 lung-cancer-pytorch-lightning-cnn.ipynb
+models/
+lung_cancer_detection/lightning_logs
+lung_cancer_detection/mlruns
+lung_cancer_detection/outputs
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

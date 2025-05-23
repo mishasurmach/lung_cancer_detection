@@ -21,7 +21,7 @@ class ConvolutionalNetwork(pl.LightningModule):
             config.
         """
         super().__init__()
-        self.save_hyperparameters(lr)
+        self.save_hyperparameters()
         self.conv1 = nn.Conv2d(3, 6, 3, 1)
         self.conv2 = nn.Conv2d(6, 16, 3, 1)
         self.fc1 = nn.Linear(16 * 54 * 54, 120)

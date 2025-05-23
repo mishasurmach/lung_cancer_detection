@@ -1,9 +1,12 @@
+import hydra
 import pytorch_lightning as pl
 from dataset import DataModule
 from model import ConvolutionalNetwork
+from omegaconf import DictConfig
 
 
-def main(config):
+@hydra.main(version_base=None, config_path="../conf", config_name="config")
+def main(config: DictConfig):
     pl.seed_everything(42)
     dm = DataModule(config)
     model = ConvolutionalNetwork(
@@ -12,10 +15,10 @@ def main(config):
 
     loggers = [
         pl.loggers.MLFlowLogger(
-            experiment_name="cats-and-dogs",
-            run_name="conv-classifier",
-            save_dir=".",
-            tracking_uri="http://127.0.0.1:8080",
+            experiment_name=config["logging"]["experiment_name"],
+            run_name=config["logging"]["run_name"],
+            save_dir=config["logging"]["mlflow_save_dir"],
+            tracking_uri=config["logging"]["tracking_uri"],
         )
     ]
 
