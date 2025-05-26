@@ -49,7 +49,7 @@ class ConvolutionalNetwork(pl.LightningModule):
         X = F.relu(self.fc2(X))
         X = F.relu(self.fc3(X))
         X = self.fc4(X)
-        return F.log_softmax(X, dim=1)
+        return F.softmax(X, dim=1)
 
     def training_step(self, batch: Any, batch_idx: int, dataloader_idx=0) -> float:
         """Computes and logs the training loss and accuracy.

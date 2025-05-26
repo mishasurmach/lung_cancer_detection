@@ -32,9 +32,9 @@ class DataModule(pl.LightningDataModule):
                 # reverse 50% of images
                 transforms.RandomHorizontalFlip(),
                 # resize shortest side to 224 pixels
-                transforms.Resize(224),
+                transforms.Resize(config["data_loading"]["image_size"]),
                 # crop longest side to 224 pixels at center
-                transforms.CenterCrop(224),
+                transforms.CenterCrop(config["data_loading"]["image_size"]),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
             ]
@@ -99,6 +99,7 @@ class DataModule(pl.LightningDataModule):
             self.train_dataset,
             batch_size=self.config["training"]["batch_size"],
             num_workers=self.config["training"]["num_workers"],
+            persistent_workers=True,
             shuffle=True,
         )
 
@@ -112,6 +113,7 @@ class DataModule(pl.LightningDataModule):
             self.val_dataset,
             batch_size=self.config["training"]["batch_size"],
             num_workers=self.config["training"]["num_workers"],
+            persistent_workers=True,
         )
 
     def test_dataloader(self) -> torch.utils.data.DataLoader:
@@ -124,6 +126,7 @@ class DataModule(pl.LightningDataModule):
             self.test_dataset,
             batch_size=self.config["training"]["batch_size"],
             num_workers=self.config["training"]["num_workers"],
+            persistent_workers=True,
         )
 
     def predict_dataloader(self) -> torch.utils.data.DataLoader:
@@ -140,6 +143,7 @@ class DataModule(pl.LightningDataModule):
             self.test_dataset,
             batch_size=self.config["training"]["batch_size"],
             num_workers=self.config["training"]["num_workers"],
+            persistent_workers=True,
         )
 
     def teardown(self, stage: Optional[str] = None) -> None:
