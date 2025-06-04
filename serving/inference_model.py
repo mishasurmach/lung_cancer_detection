@@ -9,7 +9,24 @@ from lung_cancer_detection.model import ConvolutionalNetwork
 
 
 class CancerClassifier(mlflow.pyfunc.PythonModel):
+    """MLflow PyFunc wrapper for lung cancer image classification model.
+
+    This class defines how the PyTorch Lightning model is loaded and
+    how inference is performed on input image paths received via MLflow's
+    REST API.
+    """
+
     def load_context(self, context):
+        """Loads model weights and preprocessing pipeline at serving time.
+
+        This method is called once when the MLflow model is loaded.
+        It restores the trained model from checkpoint and prepares
+        the image transformation pipeline.
+
+        Args:
+            context (mlflow.pyfunc.PythonModelContext): Contains model
+            artifacts and other metadata.
+        """
         self.device = torch.device("cpu")
 
         self.model = ConvolutionalNetwork.load_from_checkpoint(
@@ -28,9 +45,23 @@ class CancerClassifier(mlflow.pyfunc.PythonModel):
         )
 
     def predict(self, context, model_input):
+        """Performs inference on a batch of image file paths.
+
+        The input is expected to be a pandas DataFrame with a column `"data"` containing
+        absolute file paths to the images. The method loads and transforms each image,
+        stacks them into a batch, and returns the predicted class indices.
+
+        Args:
+            context (mlflow.pyfunc.PythonModelContext): MLflow context object.
+            model_input (pd.DataFrame): A DataFrame with a column `"data"`
+            of image paths.
+
+        Returns:
+            np.ndarray: Array of predicted class indices for each input image.
+        """
         images = []
-        for img_data in model_input:
-            img_path = str(img_data["data"])
+        for _, row in model_input.iterrows():
+            img_path = row["data"]
 
             if not os.path.exists(img_path):
                 raise ValueError(f"File {img_path} not found")

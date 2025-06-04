@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lung Cancer Detection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f6f8fa;
+            color: #333;
+            padding: 40px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        input[type="file"] {
+            margin-top: 8px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-left: 6px solid #3498db;
+            border-radius: 4px;
+        }
+
+        img {
+            margin-top: 15px;
+            max-width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lung Cancer Detection</h1>
+
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <label for="file">Upload image (JPEG/PNG):</label><br />
+        <input type="file" id="file" name="file" accept="image/*" required /><br /><br />
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if prediction is defined %}
+        <div class="result">
+            <h2>Prediction result:</h2>
+            <p><strong>{{ prediction }}</strong></p>
+
+            {% if image_url %}
+                <div>
+                    <p>Uploaded image:</p>
+                    <img src="{{ image_url }}" alt="Uploaded Image" />
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>

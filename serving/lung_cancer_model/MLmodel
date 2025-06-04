@@ -14,7 +14,7 @@ flavors:
     python_version: 3.10.16
     streamable: false
 mlflow_version: 2.22.0
-model_size_bytes: 89815814
-model_uuid: 7e80e5dd6ae443bba1589bcf6a431e7d
+model_size_bytes: 89815818
+model_uuid: 0f48ba673a5c45649ca4071bf9b726d5
 prompts: null
-utc_time_created: '2025-06-03 10:50:40.692983'
+utc_time_created: '2025-06-03 12:44:40.984431'

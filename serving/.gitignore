@@ -1,4 +1,5 @@
 example_data/
+uploads/
 
 *.ckpt
 *.pkl
