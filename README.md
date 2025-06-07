@@ -40,13 +40,12 @@ Repository structure:
    cd lung_cancer_detection
    ```
 
-````
-
 2. **Activate Conda environment**
-```bash
-conda create -n lung_cancer_detection_env python=3.10 -y
-conda activate lung_cancer_detection_env
-````
+
+   ```bash
+   conda create -n lung_cancer_detection_env python=3.10 -y
+   conda activate lung_cancer_detection_env
+   ````
 
 3. **Install Python dependencies via Poetry**
 
@@ -68,21 +67,21 @@ conda activate lung_cancer_detection_env
 
    * **Via DVC + Google Drive** (requires private JSON key):
 
-     0. Install DVC with Google Drive support
+     1. Install DVC with Google Drive support
 
          ```bash
          pip install "dvc[gdrive]"
          dvc install           # initialize DVC in this Git repo
          ```
-     1. Request the `dvc-service.json` key file privately from the project owner.
-     2. Place it in `~/.gcp/dvc-service.json` and configure DVC:
+     2. Request the `dvc-service.json` key file privately from the project owner.
+     3. Place it in `~/.gcp/dvc-service.json` and configure DVC:
 
         ```bash
         dvc remote modify drive gdrive_use_service_account true
         dvc remote modify drive --local \
             gdrive_service_account_json_file_path ~/.gcp/dvc-service.json
         ```
-     3. Pull all artifacts:
+     4. Pull all artifacts:
 
         ```bash
         dvc pull      # downloads `lung_image_sets/` and model checkpoints
