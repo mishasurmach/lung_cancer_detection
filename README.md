@@ -2,12 +2,16 @@
 
 ## Overview
 
-This project implements a deep learning pipeline for detecting lung cancer from histopathological images of lung tissue. It provides:
+This project implements a deep learning pipeline for detecting lung cancer from
+histopathological images of lung tissue. It provides:
 
-* **Python** code structured as a package (`lung_cancer_detection/`) with modules for data loading, model definition, training, and inference.
-* A **serving** directory with Docker Compose setup for production deployment (backend + frontend).
-* **Hydra** for flexible configuration management (configs live under `conf/`).
-* **DVC** (Data Version Control) to manage large assets (the dataset and model checkpoints) stored on Google Drive.
+- **Python** code structured as a package (`lung_cancer_detection/`) with
+  modules for data loading, model definition, training, and inference.
+- A **serving** directory with Docker Compose setup for production deployment
+  (backend + frontend).
+- **Hydra** for flexible configuration management (configs live under `conf/`).
+- **DVC** (Data Version Control) to manage large assets (the dataset and model
+  checkpoints) stored on Google Drive.
 
 Repository structure:
 
@@ -45,14 +49,13 @@ Repository structure:
    ```bash
    conda create -n lung_cancer_detection_env python=3.10 -y
    conda activate lung_cancer_detection_env
-   ````
+   ```
 
 3. **Install Python dependencies via Poetry**
 
    ```bash
    poetry install        # installs all packages from pyproject.toml
    ```
-
 
 4. **Install DVC with Google Drive support**
 
@@ -61,19 +64,21 @@ Repository structure:
    dvc install           # initialize DVC in this Git repo
    ```
 
-4. **Pull dataset and existing models**
+5. **Pull dataset and existing models**
 
    You have two options to obtain the data:
 
-   * **Via DVC + Google Drive** (requires private JSON key):
+   - **Via DVC + Google Drive** (requires private JSON key):
 
      1. Install DVC with Google Drive support
 
-         ```bash
-         pip install "dvc[gdrive]"
-         dvc install           # initialize DVC in this Git repo
-         ```
-     2. Request the `dvc-service.json` key file privately from the project owner.
+        ```bash
+        pip install "dvc[gdrive]"
+        dvc install           # initialize DVC in this Git repo
+        ```
+
+     2. Request the `dvc-service.json` key file privately from the project
+        owner.
      3. Place it in `~/.gcp/dvc-service.json` and configure DVC:
 
         ```bash
@@ -81,13 +86,14 @@ Repository structure:
         dvc remote modify drive --local \
             gdrive_service_account_json_file_path ~/.gcp/dvc-service.json
         ```
+
      4. Pull all artifacts:
 
         ```bash
         dvc pull      # downloads `lung_image_sets/` and model checkpoints
         ```
 
-   * **Via public GitHub** (no DVC required):
+   - **Via public GitHub** (no DVC required):
 
      Check the link: https://github.com/tampapath/lung_colon_image_set
 
@@ -102,13 +108,15 @@ Repository structure:
 
 ## Train
 
-To train a new model from scratch or resume training, use the Hydra-enabled entrypoint:
+To train a new model from scratch or resume training, use the Hydra-enabled
+entrypoint:
 
 ```bash
 python lung_cancer_detection.train
 ```
 
-By default, this will read settings from `conf/train/` and output a checkpoint to `models/`.
+By default, this will read settings from `conf/train/` and output a checkpoint
+to `models/`.
 
 To customize parameters via Hydra:
 
@@ -141,12 +149,13 @@ python -m lung_cancer_detection.infer
 
 ## Serve (Production)
 
-The `serving/` directory contains a Docker-based deployment for both backend and frontend. To launch the server locally:
+The `serving/` directory contains a Docker-based deployment for both backend and
+frontend. To launch the server locally:
 
 1. **Install Docker & Docker Compose** (if not already):
 
-   * [Install Docker Desktop](https://www.docker.com/products/docker-desktop)
-   * Ensure `docker` and `docker-compose` commands are in your PATH.
+   - [Install Docker Desktop](https://www.docker.com/products/docker-desktop)
+   - Ensure `docker` and `docker-compose` commands are in your PATH.
 
 2. **Navigate to `serving/` and start the services**:
 
@@ -160,6 +169,7 @@ The `serving/` directory contains a Docker-based deployment for both backend and
    ```bash
    docker-compose down
    ```
+
 ---
 
 Happy developing! 🚀
