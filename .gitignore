@@ -1,6 +1,6 @@
 lung_image_sets/
 lung-cancer-pytorch-lightning-cnn.ipynb
-models/
+models/*
 !models/*.dvc
 lung_cancer_detection/lightning_logs
 lung_cancer_detection/mlruns
