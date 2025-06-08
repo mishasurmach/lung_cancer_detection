@@ -1,0 +1,6 @@
+outs:
+- md5: 586ce582b008292fede341538be3e48d.dir
+  size: 929705099
+  nfiles: 15001
+  hash: md5
+  path: lung_image_sets

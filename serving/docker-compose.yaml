@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  mlflow:
+    build:
+      context: ..
+      dockerfile: serving/backend/Dockerfile
+    container_name: mlflow-server
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./frontend/uploads:/app/uploads
+
+  flask_proxy:
+    build: ./frontend
+    container_name: flask-proxy
+    ports:
+      - "5005:5005"
+    depends_on:
+      - mlflow
+    volumes:
+      - ./frontend/uploads:/app/uploads

@@ -1,0 +1,6 @@
+label: mlfow
+
+experiment_name: lung-cancer-detection
+run_name: convolutional-model
+mlflow_save_dir: "."
+tracking_uri: http://127.0.0.1:8080

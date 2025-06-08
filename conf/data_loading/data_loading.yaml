@@ -1,0 +1,2 @@
+data_path: ../lung_image_sets
+image_size: 224
