@@ -54,17 +54,10 @@ Repository structure:
 3. **Install Python dependencies via Poetry**
 
    ```bash
-   poetry install        # installs all packages from pyproject.toml
+   poetry install
    ```
 
-4. **Install DVC with Google Drive support**
-
-   ```bash
-   pip install "dvc[gdrive]"
-   dvc install           # initialize DVC in this Git repo
-   ```
-
-5. **Pull dataset and existing models**
+4. **Pull dataset and existing models**
 
    You have two options to obtain the data:
 
@@ -73,8 +66,7 @@ Repository structure:
      1. Install DVC with Google Drive support
 
         ```bash
-        pip install "dvc[gdrive]"
-        dvc install           # initialize DVC in this Git repo
+        poetry run dvc install 
         ```
 
      2. Request the `dvc-service.json` key file privately from the project
@@ -90,29 +82,48 @@ Repository structure:
      4. Pull all artifacts:
 
         ```bash
-        dvc pull      # downloads `lung_image_sets/` and model checkpoints
+        poetry run dvc pull
         ```
+
+     To fetch only a subset via DVC, specify the DVC file:
+  
+       ```bash
+       poetry run dvc pull lung_image_sets.dvc       # only dataset
+       poetry run dvc pull models/epoch*.dvc         # only model checkpoints
+       ```
+
 
    - **Via public GitHub** (no DVC required):
 
-     Check the link: https://github.com/tampapath/lung_colon_image_set
+     Check the link for the dataset: https://github.com/tampapath/lung_colon_image_set
+     Ask the owner for model weights.
+---
 
-   To fetch only a subset via DVC, specify the DVC file:
+## Git hooks
 
-   ```bash
-   dvc pull lung_image_sets.dvc       # only dataset
-   dvc pull models/epoch*.dvc         # only model checkpoints
-   ```
+To enable git hooks:
+
+```bash
+pre-commit install
+```
 
 ---
 
 ## Train
-
-To train a new model from scratch or resume training, use the Hydra-enabled
-entrypoint:
+To track your training experiments, in another terminal run
 
 ```bash
-python lung_cancer_detection.train
+mlflow server --host 127.0.0.1 --port 8080
+```
+
+and go to http://127.0.0.1:8080 .
+
+To train a new model from scratch or resume training, use the Hydra-enabled
+entrypoint: in the first terminal
+
+```bash
+cd lung_cancer_detection 
+python train.py
 ```
 
 By default, this will read settings from `conf/train/` and output a checkpoint
@@ -123,26 +134,14 @@ To customize parameters via Hydra:
 ```bash
 python -m lung_cancer_detection.train batch_size=16
 ```
-
-After training completes, track and push the new checkpoint:
-
-```bash
-# add the checkpoint under DVC
-dvc add models/model.ckpt
-git add models/model.ckpt.dvc .gitignore
-git commit -m "feat: add trained model checkpoint"
-# push checkpoint to remote storage
-dvc push
-```
-
 ---
 
 ## Infer
 
-Run inference:
+Run inference: from `lung_cancer_detection/` run
 
 ```bash
-python -m lung_cancer_detection.infer
+python infer.py
 ```
 
 ---
