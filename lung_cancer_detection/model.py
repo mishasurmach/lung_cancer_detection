@@ -66,7 +66,7 @@ class ConvolutionalNetwork(pl.LightningModule):
         y_hat = self(X)
         loss = F.cross_entropy(y_hat, y)
         pred = y_hat.argmax(dim=1, keepdim=True)
-        acc = pred.eq(y.view_as(pred)).sum().item() / y.shape[0]
+        acc = pred.eq(y.view_as(pred)).float().mean()
         self.log("train_loss", loss, prog_bar=True, on_step=False, on_epoch=True)
         self.log("train_acc", acc, prog_bar=True, on_step=False, on_epoch=True)
         return loss
@@ -83,9 +83,9 @@ class ConvolutionalNetwork(pl.LightningModule):
         y_hat = self(X)
         loss = self.loss_fn(y_hat, y)
         pred = y_hat.argmax(dim=1, keepdim=True)
-        acc = pred.eq(y.view_as(pred)).sum().item() / y.shape[0]
-        self.log("val_loss", loss)
-        self.log("val_acc", acc)
+        acc = pred.eq(y.view_as(pred)).float().mean()
+        self.log("val_loss", loss, on_step=False, on_epoch=True)
+        self.log("val_acc", acc, on_step=False, on_epoch=True)
 
     def test_step(self, batch: Any, batch_idx: int, dataloader_idx: int = 0):
         """Computes and logs test loss and accuracy.
@@ -99,9 +99,9 @@ class ConvolutionalNetwork(pl.LightningModule):
         y_hat = self(X)
         loss = F.cross_entropy(y_hat, y)
         pred = y_hat.argmax(dim=1, keepdim=True)
-        acc = pred.eq(y.view_as(pred)).sum().item() / y.shape[0]
-        self.log("test_loss", loss)
-        self.log("test_acc", acc)
+        acc = pred.eq(y.view_as(pred)).float().mean()
+        self.log("test_loss", loss, on_step=False, on_epoch=True)
+        self.log("test_acc", acc, on_step=False, on_epoch=True)
 
     def predict_step(self, batch: Any, batch_idx: int, dataloader_idx: int = 0) -> Any:
         """Performs a forward pass during prediction.

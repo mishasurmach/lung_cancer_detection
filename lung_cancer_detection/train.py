@@ -23,7 +23,7 @@ def main(config: DictConfig):
     ]
 
     callbacks = [
-        pl.callbacks.LearningRateMonitor(logging_interval="step"),
+        pl.callbacks.LearningRateMonitor(logging_interval="epoch"),
         pl.callbacks.DeviceStatsMonitor(),
         pl.callbacks.RichModelSummary(max_depth=2),
     ]
