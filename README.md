@@ -66,7 +66,7 @@ Repository structure:
      1. Install DVC with Google Drive support
 
         ```bash
-        poetry run dvc install 
+        poetry run dvc install
         ```
 
      2. Request the `dvc-service.json` key file privately from the project
@@ -86,17 +86,18 @@ Repository structure:
         ```
 
      To fetch only a subset via DVC, specify the DVC file:
-  
-       ```bash
-       poetry run dvc pull lung_image_sets.dvc       # only dataset
-       poetry run dvc pull models/epoch*.dvc         # only model checkpoints
-       ```
 
+     ```bash
+     poetry run dvc pull lung_image_sets.dvc       # only dataset
+     poetry run dvc pull models/epoch*.dvc         # only model checkpoints
+     ```
 
    - **Via public GitHub** (no DVC required):
 
-     Check the link for the dataset: https://github.com/tampapath/lung_colon_image_set
-     Ask the owner for model weights.
+     Check the link for the dataset:
+     https://github.com/tampapath/lung_colon_image_set Ask the owner for model
+     weights.
+
 ---
 
 ## Git hooks
@@ -110,6 +111,7 @@ pre-commit install
 ---
 
 ## Train
+
 To track your training experiments, in another terminal run
 
 ```bash
@@ -122,7 +124,7 @@ To train a new model from scratch or resume training, use the Hydra-enabled
 entrypoint: in the first terminal
 
 ```bash
-cd lung_cancer_detection 
+cd lung_cancer_detection
 python train.py
 ```
 
@@ -134,6 +136,7 @@ To customize parameters via Hydra:
 ```bash
 python -m lung_cancer_detection.train batch_size=16
 ```
+
 ---
 
 ## Infer
